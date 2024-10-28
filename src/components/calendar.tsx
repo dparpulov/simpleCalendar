@@ -90,9 +90,9 @@ export const Calendar = ({
     const fullscreenClasses = isFullScreen ?
       'border-gray-300 rounded-none h-32 sm:h-36 md:h-48 w-10 sm:w-20 md:w-28' :
       'rounded-full';
-    const offsetClasses = offset !== 0 ? 'opacity-35' : '';
+    const offsetClasses = offset !== 0 && 'opacity-35';
     const eventClasses = events.length > 0 && offset === 0 ? 'bg-primary' : 'bg-white';
-
+    const fullScreenSelectedClasses = isFullScreen && isSelected && 'border-blue-500';
 
     return (
       <Button
@@ -100,7 +100,7 @@ export const Calendar = ({
         aria-label={`${day} ${offsetMonthDate.toLocaleString('default', { month: 'long', year: 'numeric' })}, ${isSelected ? 'selected' : 'not selected'}`}
         role="gridcell"
         variant="ghost"
-        className={`${baseClasses} ${selectedClasses} ${fullscreenClasses} ${offsetClasses} ${eventClasses}`}
+        className={`${baseClasses} ${selectedClasses} ${fullscreenClasses} ${fullScreenSelectedClasses} ${offsetClasses} ${eventClasses}`}
         onClick={() => onDateClick(day, offset)}
       >
         <span className="p-1">{day}</span>

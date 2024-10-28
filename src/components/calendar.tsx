@@ -1,8 +1,8 @@
 import { useEffect, useState } from "react";
 import { Button } from "./ui/button";
-import { ChevronLeft, ChevronRight, ChevronsLeft, ChevronsRight } from "lucide-react";
 import { Event } from "@/types";
 import { EventType } from "@/constants";
+import MonthNavigation from "./month-navigation";
 
 const DAYS = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
 
@@ -28,23 +28,6 @@ export const Calendar = ({ selectedDate, setSelectedDate, isFullScreen, events }
   useEffect(() => {
     setVisibleMonth(selectedDate);
   }, [selectedDate]);
-
-  const changeMonth = (offset: number) => {
-    setVisibleMonth(
-      new Date(visibleMonth.getFullYear(), visibleMonth.getMonth() + offset, 1)
-    );
-  };
-
-  const changeYear = (offset: number) => {
-    setVisibleMonth(
-      new Date(visibleMonth.getFullYear() + offset, visibleMonth.getMonth(), 1)
-    );
-  };
-
-  const prevYear = () => changeYear(-1);
-  const nextYear = () => changeYear(1);
-  const prevMonth = () => changeMonth(-1);
-  const nextMonth = () => changeMonth(1);
 
   const onDateClick = (day: number, monthOffset = 0) => {
     const newDate = new Date(visibleMonth.getFullYear(), visibleMonth.getMonth() + monthOffset, day);
@@ -147,27 +130,7 @@ export const Calendar = ({ selectedDate, setSelectedDate, isFullScreen, events }
 
   return (
     <div className={isFullScreen ? 'h-full w-auto' : ""}>
-      <div className="flex justify-center items-center">
-        <div className="flex gap-2">
-          <Button variant="ghost" size="icon" onClick={prevYear} aria-label="Previous year">
-            <ChevronsLeft className="h-4 w-4" />
-          </Button>
-          <Button variant="ghost" size="icon" onClick={prevMonth} aria-label="Previous month">
-            <ChevronLeft className="h-4 w-4" />
-          </Button>
-        </div>
-        <h2 className="font-semibold mx-auto" aria-live="polite">
-          {visibleMonth.toLocaleString('default', { month: 'long', year: 'numeric' })}
-        </h2>
-        <div className="flex gap-2">
-          <Button variant="ghost" size="icon" onClick={nextMonth} aria-label="Next month">
-            <ChevronRight className="h-4 w-4" />
-          </Button>
-          <Button variant="ghost" size="icon" onClick={nextYear} aria-label="Next year">
-            <ChevronsRight className="h-4 w-4" />
-          </Button>
-        </div>
-      </div>
+      <MonthNavigation visibleMonth={visibleMonth} setVisibleMonth={setVisibleMonth} />
       <div className="grid grid-cols-7 gap-1">
         {DAYS.map(day => (
           <div key={day} className={`text-center text-sm font-medium`}>

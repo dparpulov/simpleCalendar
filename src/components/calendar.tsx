@@ -47,12 +47,18 @@ export const Calendar = ({ selectedDate, setSelectedDate, isFullScreen, events }
     getKey: Function,
     getDayOfMonth: Function
   ) => {
+    const offsetMonthDate = new Date(
+      visibleMonth.getFullYear(),
+      visibleMonth.getMonth() + offset,
+      1
+    );
+
     return Array.from({ length: numberOfDays }).map((_, index) => {
       const day = getDayOfMonth(index);
       return (
         <Button
           key={getKey(day)}
-          aria-label={String(day) + ' ' + visibleMonth.toLocaleString('default', { month: 'long', year: 'numeric' })}
+          aria-label={`${day} ${offsetMonthDate.toLocaleString('default', { month: 'long', year: 'numeric' })}`}
           role="gridcell"
           variant="ghost"
           className={`h-full w-full p-0 opacity-35 bg-white flex flex-col items-center justify-center overflow-hidden rounded-full
@@ -91,7 +97,7 @@ export const Calendar = ({ selectedDate, setSelectedDate, isFullScreen, events }
       visibleMonth.getFullYear() === selectedDate.getFullYear();
   };
 
-  const daysOfCurrentMonth = Array.from({ length: daysInVisibleMonth }).map((_, index) => {
+  const daysOfVisibleMonth = Array.from({ length: daysInVisibleMonth }).map((_, index) => {
     const day = index + 1;
     const dayEvents = getEventsForDate(visibleMonth.getFullYear(), visibleMonth.getMonth(), day);
     const isSelected = checkIsSelectedDate(day);
@@ -140,7 +146,7 @@ export const Calendar = ({ selectedDate, setSelectedDate, isFullScreen, events }
       </div>
       <div className={`grid grid-cols-7 gap-1 py-2`} role="grid">
         {daysOfPreviousMonth}
-        {daysOfCurrentMonth}
+        {daysOfVisibleMonth}
         {daysOfNextMonth}
       </div>
     </div>

@@ -23,6 +23,8 @@ export default function CalendarView() {
     setSelectedDayEvents(events[formattedDate] || []);
   }, [selectedDate]);
 
+  const isToday = new Date().toDateString() === selectedDate.toDateString();
+
   return (
     <div className={`flex flex-col min-w-80 bg-background text-foreground h-screen`}>
       <div className={`py-4 ${isFullScreen && 'px-4 h-screen'}`}>
@@ -56,7 +58,9 @@ export default function CalendarView() {
           <Card className="border-none shadow-none">
             <CardHeader className="text-start px-0 pb-2">
               <CardTitle>Upcoming Events</CardTitle>
-              <CardDescription>{selectedDate.toLocaleDateString('en-US', { day: '2-digit', month: 'short' })}</CardDescription>
+              <CardDescription>
+                {isToday && "Today"} {selectedDate.toLocaleDateString('en-US', { day: '2-digit', month: 'long' })}
+              </CardDescription>
             </CardHeader>
             <CardContent className="px-0">
               {selectedDayEvents.length > 0 ? (

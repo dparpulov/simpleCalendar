@@ -44,8 +44,6 @@ export default function CalendarView() {
           </Toggle>
         </div>
         <Calendar
-          // TODO try to rerender the whole component because when changing month/year the styles persist for a sec
-          // key={isFullScreen.toString()}
           selectedDate={selectedDate}
           setSelectedDate={setSelectedDate}
           isFullScreen={isFullScreen}
